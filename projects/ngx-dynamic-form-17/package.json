@@ -1,6 +1,6 @@
 {
   "name": "ngx-dynamic-form-17",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A powerful Angular library for creating dynamic forms with drag-and-drop reordering, comprehensive validation, and support for all HTML input types",
   "keywords": [
     "angular",
