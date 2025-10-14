@@ -1,12 +1,47 @@
 {
   "name": "ngx-dynamic-form-17",
   "version": "0.0.1",
+  "description": "A powerful Angular library for creating dynamic forms with drag-and-drop reordering, comprehensive validation, and support for all HTML input types",
+  "keywords": [
+    "angular",
+    "dynamic-forms",
+    "form-builder",
+    "reactive-forms",
+    "validation",
+    "drag-drop",
+    "form-generator",
+    "angular-17"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mecharan14/ngx-dynamic-form-17.git"
+  },
+  "homepage": "https://github.com/mecharan14/ngx-dynamic-form-17#readme",
+  "bugs": {
+    "url": "https://github.com/mecharan14/ngx-dynamic-form-17/issues"
+  },
   "peerDependencies": {
     "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
+    "@angular/core": "^17.3.0",
+    "@angular/cdk": "^17.3.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "main": "fesm2022/ngx-dynamic-form-17.mjs",
+  "module": "fesm2022/ngx-dynamic-form-17.mjs",
+  "es2022": "fesm2022/ngx-dynamic-form-17.mjs",
+  "esm2022": "esm2022/ngx-dynamic-form-17.mjs",
+  "fesm2022": "fesm2022/ngx-dynamic-form-17.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./esm2022/ngx-dynamic-form-17.mjs",
+      "require": "./fesm2022/ngx-dynamic-form-17.mjs",
+      "types": "./index.d.ts"
+    }
+  }
 }
