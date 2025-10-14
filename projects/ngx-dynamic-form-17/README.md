@@ -18,7 +18,7 @@ A powerful Angular library for creating dynamic forms with drag-and-drop reorder
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-username.github.io/ngx-dynamic-form-workspace/) - Try the interactive form builder!
+[View Live Demo](https://mecharan14.github.io/ngx-dynamic-form-17/) - Try the interactive form builder!
 
 ## 📦 Installation
 
