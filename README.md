@@ -1,7 +1,7 @@
 # ngx-dynamic-form-17
 
 [![npm version](https://badge.fury.io/js/ngx-dynamic-form-17.svg)](https://badge.fury.io/js/ngx-dynamic-form-17)
-[![Build Status](https://travis-ci.org/your-username/ngx-dynamic-form-workspace.svg?branch=main)](https://travis-ci.org/your-username/ngx-dynamic-form-workspace)
+[![GitHub Pages](https://img.shields.io/badge/Demo-GitHub%20Pages-blue)](https://mecharan14.github.io/ngx-dynamic-form-17/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An Angular library for creating dynamic forms from a configuration object. This library is designed to be easy to use and flexible, allowing you to build complex forms with minimal effort.
@@ -150,7 +150,7 @@ This is a monorepo that contains the `ngx-dynamic-form-17` library and a demo ap
 
 ### Setup
 
-1.  Clone the repository: `git clone https://github.com/mecharan14/ngx-dynamic-form-workspace.git`
+1.  Clone the repository: `git clone https://github.com/mecharan14/ngx-dynamic-form-17.git`
 2.  Install dependencies: `npm install`
 
 ### Build the Library
@@ -170,6 +170,17 @@ ng serve demo-app
 ```
 
 The demo app will be available at `http://localhost:4200/`.
+
+## 🌐 Live Demo
+
+Try the interactive form builder: [https://mecharan14.github.io/ngx-dynamic-form-17/](https://mecharan14.github.io/ngx-dynamic-form-17/)
+
+The live demo showcases all the library features including:
+- Drag & drop field reordering
+- All supported input types
+- Advanced validation options
+- File upload with validation
+- Real-time form preview
 
 ### Run Tests
 
