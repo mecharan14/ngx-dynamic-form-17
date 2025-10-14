@@ -1,0 +1,85 @@
+<form [formGroup]="form" class="dynamic-form">
+    <ng-template #formFieldTemplate let-fields="fields">
+        <div *ngFor="let field of fields" [ngSwitch]="field.type" class="dynamic-form-field">
+
+            <label [for]="field.name" class="dynamic-form-label">{{ field.label }}<span *ngIf="field.validators?.required" class="dynamic-form-required">*</span></label>
+
+            <!-- Text Input -->
+            <input *ngSwitchCase="'text'" type="text" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Password Input -->
+            <input *ngSwitchCase="'password'" type="password" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Email Input -->
+            <input *ngSwitchCase="'email'" type="email" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Number Input -->
+            <input *ngSwitchCase="'number'" type="number" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Date Input -->
+            <input *ngSwitchCase="'date'" type="date" [formControlName]="field.name" [id]="field.name" class="dynamic-form-input">
+
+            <!-- Time Input -->
+            <input *ngSwitchCase="'time'" type="time" [formControlName]="field.name" [id]="field.name" class="dynamic-form-input">
+
+            <!-- File Input -->
+            <input *ngSwitchCase="'file'" type="file" [formControlName]="field.name" [id]="field.name" class="dynamic-form-input">
+
+            <!-- Tel Input -->
+            <input *ngSwitchCase="'tel'" type="tel" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Url Input -->
+            <input *ngSwitchCase="'url'" type="url" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-input">
+
+            <!-- Range Input -->
+            <input *ngSwitchCase="'range'" type="range" [formControlName]="field.name" [id]="field.name" class="dynamic-form-input">
+
+            <!-- Color Input -->
+            <input *ngSwitchCase="'color'" type="color" [formControlName]="field.name" [id]="field.name" class="dynamic-form-input">
+
+            <!-- Checkbox -->
+            <div *ngSwitchCase="'checkbox'" class="dynamic-form-checkbox">
+                <input type="checkbox" [formControlName]="field.name" [id]="field.name" class="dynamic-form-checkbox-input">
+                <label [for]="field.name" class="dynamic-form-checkbox-label">{{ field.label }}</label>
+            </div>
+
+            <!-- Radio Buttons -->
+            <div *ngSwitchCase="'radio'" class="dynamic-form-radio">
+                <div *ngFor="let opt of field.options" class="dynamic-form-radio-item">
+                    <input type="radio" [formControlName]="field.name" [id]="field.name + '-' + opt.key" [value]="opt.key" class="dynamic-form-radio-input">
+                    <label [for]="field.name + '-' + opt.key" class="dynamic-form-radio-label">{{ opt.value }}</label>
+                </div>
+            </div>
+
+            <!-- Select Dropdown -->
+            <select *ngSwitchCase="'select'" [formControlName]="field.name" [id]="field.name" class="dynamic-form-select">
+                <option *ngFor="let opt of field.options" [value]="opt.key">{{ opt.value }}</option>
+            </select>
+
+            <!-- Textarea -->
+            <textarea *ngSwitchCase="'textarea'" [formControlName]="field.name" [id]="field.name" [placeholder]="field.placeholder || ''" class="dynamic-form-textarea"></textarea>
+
+            <!-- Other input types can be added here -->
+
+            <!-- Validation Errors -->
+            <div *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched" class="dynamic-form-error">
+                <span *ngIf="form.get(field.name)?.errors?.['required']">This field is required.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['minlength']">Minimum length not met.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['maxlength']">Maximum length exceeded.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['email']">Invalid email format.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['pattern']">Invalid format.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['min']">Value is too small.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['max']">Value is too large.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['fileSize']">File size exceeds {{ form.get(field.name)?.errors?.['fileSize']?.maxSize }}MB limit.</span>
+                <span *ngIf="form.get(field.name)?.errors?.['fileType']">File type not allowed. Allowed types: {{ form.get(field.name)?.errors?.['fileType']?.allowedTypes }}.</span>
+            </div>
+
+            <!-- Conditional Subform -->
+            <div *ngIf="field.conditionalSubForm && subFormFields[field.name]?.length" class="dynamic-form-subform">
+                <ng-container *ngTemplateOutlet="formFieldTemplate; context: { fields: subFormFields[field.name] }"></ng-container>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-container *ngTemplateOutlet="formFieldTemplate; context: { fields: sortedFields }"></ng-container>
+</form>

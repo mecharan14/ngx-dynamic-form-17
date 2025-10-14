@@ -1,0 +1,458 @@
+<div class="main-container">
+    <!-- Left side: Form Preview -->
+    <div class="preview-section">
+        <div class="card">
+            <h2 class="card-title">
+                Form Preview
+            </h2>
+            @if(formConfig.fields.length > 0) {
+            <ngx-dynamic-form
+                [config]="formConfig"
+                [form]="form"
+            ></ngx-dynamic-form>
+            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            } @else {
+                <p>No fields added yet</p>
+            }
+        </div>
+    </div>
+
+    <!-- Right side: Form Editor -->
+    <div class="editor-section">
+        <div class="card">
+            <h2 class="card-title">
+                Form Builder
+            </h2>
+
+            <!-- Field Editor Form -->
+            <div
+                [formGroup]="fieldEditorForm"
+                class="field-editor"
+            >
+                <h3 class="field-editor-title">
+                    {{ selectedField ? "Edit Field" : "Add New Field" }}
+                </h3>
+
+                <div class="form-grid">
+                    <!-- Field Type -->
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Field Type</label>
+                        <select
+                            formControlName="type"
+                            class="form-select"
+                        >
+                            <option
+                                *ngFor="let type of supportedFieldTypes"
+                                [value]="type"
+                            >
+                                {{ type | titlecase }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Name <span class="required-asterisk">*</span></label>
+                        <input
+                            type="text"
+                            formControlName="name"
+                            placeholder="e.g., firstName"
+                            class="form-input"
+                            [class.error]="fieldEditorForm.get('name')?.invalid && fieldEditorForm.get('name')?.touched"
+                        />
+                        <div *ngIf="fieldEditorForm.get('name')?.invalid && fieldEditorForm.get('name')?.touched" class="field-error">
+                            <span *ngIf="fieldEditorForm.get('name')?.errors?.['required']">Field name is required</span>
+                            <span *ngIf="fieldEditorForm.get('name')?.errors?.['minlength']">Field name must be at least 1 character</span>
+                        </div>
+                    </div>
+
+                    <!-- Label -->
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Label <span class="required-asterisk">*</span></label>
+                        <input
+                            type="text"
+                            formControlName="label"
+                            placeholder="e.g., First Name"
+                            class="form-input"
+                            [class.error]="fieldEditorForm.get('label')?.invalid && fieldEditorForm.get('label')?.touched"
+                        />
+                        <div *ngIf="fieldEditorForm.get('label')?.invalid && fieldEditorForm.get('label')?.touched" class="field-error">
+                            <span *ngIf="fieldEditorForm.get('label')?.errors?.['required']">Field label is required</span>
+                            <span *ngIf="fieldEditorForm.get('label')?.errors?.['minlength']">Field label must be at least 1 character</span>
+                        </div>
+                    </div>
+
+                    <!-- Placeholder -->
+                    <div class="form-group form-group-full">
+                        <label class="form-label">Placeholder</label>
+                        <input
+                            type="text"
+                            formControlName="placeholder"
+                            placeholder="e.g., John Doe"
+                            class="form-input"
+                        />
+                    </div>
+                </div>
+
+                <!-- Options for select/radio -->
+                <div
+                    *ngIf="
+                        fieldEditorForm.get('type')?.value === 'select' ||
+                        fieldEditorForm.get('type')?.value === 'radio'
+                    "
+                    formArrayName="options"
+                    class="options-section"
+                >
+                    <h4 class="options-title">
+                        Options
+                    </h4>
+                    <div
+                        *ngFor="
+                            let option of optionsArray.controls;
+                            let i = index
+                        "
+                        [formGroupName]="i"
+                        class="option-item"
+                    >
+                        <input
+                            type="text"
+                            formControlName="key"
+                            placeholder="Key"
+                            class="option-input"
+                        />
+                        <input
+                            type="text"
+                            formControlName="value"
+                            placeholder="Value"
+                            class="option-input"
+                        />
+                        <button
+                            (click)="removeOption(i)"
+                            class="remove-btn"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                    <button
+                        (click)="addOption()"
+                        class="add-btn"
+                    >
+                        + Add Option
+                    </button>
+                </div>
+
+                <!-- Validators -->
+                <div formGroupName="validators" class="validators-section">
+                    <h4 class="validators-title">
+                        Validators
+                    </h4>
+                    <div class="validators-grid">
+                        <div class="validator-item">
+                            <input
+                                type="checkbox"
+                                formControlName="required"
+                                id="required"
+                                class="checkbox"
+                            />
+                            <label
+                                for="required"
+                                class="checkbox-label"
+                                >Required</label
+                            >
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value !==
+                                    'checkbox' &&
+                                fieldEditorForm.get('type')?.value !==
+                                    'radio' &&
+                                fieldEditorForm.get('type')?.value !== 'number'
+                            "
+                        >
+                            <label
+                                for="minLength"
+                                class="number-label"
+                                >Min Length</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="minLength"
+                                id="minLength"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value !==
+                                    'checkbox' &&
+                                fieldEditorForm.get('type')?.value !==
+                                    'radio' &&
+                                fieldEditorForm.get('type')?.value !== 'number'
+                            "
+                        >
+                            <label
+                                for="maxLength"
+                                class="number-label"
+                                >Max Length</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="maxLength"
+                                id="maxLength"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'number'
+                            "
+                        >
+                            <label
+                                for="min"
+                                class="number-label"
+                                >Min</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="min"
+                                id="min"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'number'
+                            "
+                        >
+                            <label
+                                for="max"
+                                class="number-label"
+                                >Max</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="max"
+                                id="max"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'email'
+                            "
+                        >
+                            <input
+                                type="checkbox"
+                                formControlName="email"
+                                id="email"
+                                class="checkbox"
+                            />
+                            <label
+                                for="email"
+                                class="checkbox-label"
+                                >Email</label
+                            >
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'url'
+                            "
+                        >
+                            <input
+                                type="checkbox"
+                                formControlName="url"
+                                id="url"
+                                class="checkbox"
+                            />
+                            <label
+                                for="url"
+                                class="checkbox-label"
+                                >URL</label
+                            >
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'range'
+                            "
+                        >
+                            <label
+                                for="min"
+                                class="number-label"
+                                >Min Value</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="min"
+                                id="min"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'range'
+                            "
+                        >
+                            <label
+                                for="max"
+                                class="number-label"
+                                >Max Value</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="max"
+                                id="max"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'file'
+                            "
+                        >
+                            <label
+                                for="fileSize"
+                                class="number-label"
+                                >Max File Size (MB)</label
+                            >
+                            <input
+                                type="number"
+                                formControlName="fileSize"
+                                id="fileSize"
+                                class="number-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value === 'file'
+                            "
+                        >
+                            <label
+                                for="fileType"
+                                class="form-label"
+                                >Allowed Types</label
+                            >
+                            <input
+                                type="text"
+                                formControlName="fileType"
+                                id="fileType"
+                                placeholder="e.g., .jpg,.png,.pdf"
+                                class="form-input"
+                            />
+                        </div>
+                        <div
+                            class="validator-item"
+                            *ngIf="
+                                fieldEditorForm.get('type')?.value !== 'checkbox' &&
+                                fieldEditorForm.get('type')?.value !== 'radio' &&
+                                fieldEditorForm.get('type')?.value !== 'file' &&
+                                fieldEditorForm.get('type')?.value !== 'color'
+                            "
+                        >
+                            <label
+                                for="pattern"
+                                class="form-label"
+                                >Pattern (Regex)</label
+                            >
+                            <input
+                                type="text"
+                                formControlName="pattern"
+                                id="pattern"
+                                placeholder="e.g., ^[0-9]+$"
+                                class="form-input"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button
+                        *ngIf="!selectedField"
+                        (click)="addField()"
+                        class="btn btn-primary"
+                    >
+                        Add Field
+                    </button>
+                    <button
+                        *ngIf="selectedField"
+                        (click)="updateField()"
+                        class="btn btn-success"
+                    >
+                        Update Field
+                    </button>
+                </div>
+            </div>
+
+            <!-- Existing Fields List -->
+            <div class="fields-section">
+                <h3 class="fields-title">Fields</h3>
+                <div 
+                    cdkDropList
+                    (cdkDropListDropped)="onFieldDrop($event)"
+                    class="fields-list"
+                >
+                    <div
+                        *ngFor="let field of formConfig.fields; let i = index"
+                        cdkDrag
+                        (click)="selectField(field)"
+                        class="field-item"
+                        [class.selected]="selectedField?.name === field.name"
+                    >
+                        <div class="field-info">
+                            <!-- Drag Handle -->
+                            <div 
+                                cdkDragHandle
+                                class="drag-handle"
+                            >
+                                <svg style="width: 1.25rem; height: 1.25rem;" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M7 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM7 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM13 14a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <span class="field-name">{{
+                                    field.label || field.name
+                                }}</span>
+                                <span class="field-type"
+                                    >({{ field.type }})</span
+                                >
+                            </div>
+                        </div>
+                        <button
+                            (click)="
+                                deleteField(field); $event.stopPropagation()
+                            "
+                            class="btn btn-danger btn-sm"
+                        >
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copy JSON -->
+            <div class="json-section">
+                <h3 class="json-title">
+                    Generated JSON
+                </h3>
+                <div class="json-container">
+                    <pre class="json-content">{{ formConfig | json }}</pre>
+                    <button
+                        (click)="copyJson()"
+                        class="copy-btn"
+                    >
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

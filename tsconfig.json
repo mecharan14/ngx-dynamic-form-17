@@ -9,6 +9,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
+    "paths": {
+      "ngx-dynamic-form-17": [
+        "./dist/ngx-dynamic-form-17"
+      ]
+    },
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
