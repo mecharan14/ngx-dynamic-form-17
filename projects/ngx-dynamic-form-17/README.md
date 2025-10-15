@@ -1,7 +1,10 @@
 # ngx-dynamic-form-17
 
-[![npm version](https://badge.fury.io/js/ngx-dynamic-form-17.svg)](https://badge.fury.io/js/ngx-dynamic-form-17)
+![npm](https://img.shields.io/npm/v/ngx-dynamic-form-17.svg)
+![npm](https://img.shields.io/npm/dm/ngx-dynamic-form-17.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
 
 A powerful Angular library for creating dynamic forms with drag-and-drop reordering, comprehensive validation, and support for all HTML input types. Perfect for building form builders, dynamic surveys, and configurable data collection interfaces.
 
@@ -275,6 +278,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: your.email@example.com
 - 🐛 Issues: [GitHub Issues](https://github.com/mecharan14/ngx-dynamic-form-17/issues)
 - 📖 Documentation: [GitHub Wiki](https://github.com/mecharan14/ngx-dynamic-form-17/wiki)
